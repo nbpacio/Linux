@@ -1,0 +1,47 @@
+
+vim $OUT -c "hardcopy > $OUT.ps | q"; ps2pdf $OUT.ps <====== converting text file to pdf
+
+ex -s -c '15i|show version' -c x file  <=== inserting text to lines of a script
+
+
+SED:
+
+sed -i '/terminal / r file2' file1 <====== inserting content of file1 from start with string "terminal" on file2
+
+sed -i '4i This is my 4th line' file  <==== insert on specific line
+
+sed -i '5a This is my sixth line' file  <===== append (below specified line)
+
+
+
+To add filename after 4th line of filename1:
+
+sed -i '4 r filename' filename1
+
+To add filename after line which starts from "Dora" in filename1:
+
+sed -i '/^Dora/ r filename' filename1
+
+To add filename after 4th line and remove any blank lines from filename1:
+
+sed -i '/^$/d;4 r filename' filename1
+
+
+EX:
+
+sed -i '15 r file1' file2<----- insert content of file 1 to file 2 starting on line 15
+
+
+Delete particular line
+ sed -i '2d' file
+
+Delete range of lines
+ sed -i 'm,nd' file
+
+Ex:
+
+sed -i '15,33d' file <====== delete
+
+
+
+NOTE: remove all -i if only displays output on terminal without changing the file content.
