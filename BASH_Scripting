@@ -305,4 +305,43 @@ fi
 echo -e "\n$user_name $user_password"
 
 
+FUNCTIONS:
+
+[npacio@ITSUSRALSP00620 ~]$ declare -F
+declare -f _module
+declare -f _module_avail
+declare -f _module_long_arg_list
+declare -f _module_not_yet_loaded
+declare -fx module
+declare -f quote
+[npacio@ITSUSRALSP00620 ~]$ declare -F | wc -l
+6
+[npacio@ITSUSRALSP00620 ~]$ declare -F quote
+[npacio@ITSUSRALSP00620 ~]$ quote bob
+'bob'
+[npacio@ITSUSRALSP00620 ~]$
+
+
+EX:
+
+#!/bin/bash
+prompt_user () {
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+	echo ""
+}
+if [ $# -eq 0 ] ; then
+	prompt_user
+        if [ "$user_password" != "$user_password_check" ] ; then
+                echo "${0}: Passwords do not match!"
+                prompt_user
+        fi
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+echo -e "\n$user_name $user_password"
+
 
