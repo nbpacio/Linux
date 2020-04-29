@@ -1,0 +1,54 @@
+FOR LOOP:
+
+#!/bin/bash
+for user in $* ; do
+        echo $user
+        echo $user
+done
+
+
+[npacio@ITSUSRALSP00620 scripts]$ ./users.sh fred jo sally harry
+fred
+fred
+jo
+jo
+sally
+sally
+harry
+harry
+[npacio@ITSUSRALSP00620 scripts]$
+
+
+WHILE LOOP:
+
+
+
+
+#!/bin/bash
+prompt_user () {
+        message=${1:-"Enter the account details"}
+        echo "$message"
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+        echo ""
+}
+
+check_user () {
+        grep -q \^${1}\: /etc/passwd && return 0
+}
+
+if [ $# -eq 0 ] ; then
+        prompt_user
+        while [ "$user_password" != "$user_password_check" ] ; do
+                prompt_user "Passwords do not match! Re-Enter Details."
+        done
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+while check_user "$user_name" ; do
+        prompt_user "The user name you have chosen already exists, please enter new user detail"
+done
+echo -e "\n$user_name $user_password"
