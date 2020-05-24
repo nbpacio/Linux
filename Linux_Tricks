@@ -1,0 +1,19 @@
+1 - sudo !! - re-run previous command with 'sudo' prepended
+
+2 - ctrl-k, ctrl-u, ctrl-w, ctrl-y - cutting and pasting text in the command line
+
+3 - practical kill/yank example
+
+4 - use 'less +F' to view logfiles, instead of 'tail' (ctrl-c, shift-f, q to quit)
+
+5 - ctrl-x-e - continue editing your current shell line in a text editor (uses $EDITOR)
+
+6 - alt-. - paste previous command's argument (useful for running multiple commands on the same resource)
+
+7 - reset - resets/unborks your terminal
+
+8 - create a super fast ram disk: mkdir -p /mnt/ram   ;   mount -t tmpfs tmpfs /mnt/ram -o size=8192M
+
+9 -  ls -l - don't add command to history <note the leading space>
+
+10 - fc - fix a really long command that you messed up
