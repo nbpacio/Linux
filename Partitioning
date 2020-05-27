@@ -49,7 +49,7 @@ Type p to verify partition
 
 Type w to write partition
 
-Type mkfs.ntfs /dev/sda1
+Type mkfs.ntfs -f /dev/sda1
 
 NOTE:
 If you have a large file system and dont want to wait hours to write zeroes through it, 
@@ -58,7 +58,7 @@ you can skip that part by running mkfs.ntfs -f /dev/sdx1 instead
 
 PARTITIONING NOTES:
 
-1. boot partition - 200-500 mb minimum - +200M on last sector
+1. boot partition - 200 mb minimum - +200M plus on last sector
 2. swap partition - 8-12 GB for 8GB memory (150%) - +12G on last sector
 3. root partition - where you put all applications
 4. home partition - personal files
@@ -68,8 +68,23 @@ PARTITIONING NOTES:
 # mkswap /dev/sdxx <---- swap partition
 # swapon /dev/sdxx <----- swap on
 
+FOR EFI:
 
+fdisk /dev/sdx
+Command (m for help):g
+Command (m for help):p
+Command (m for help):n
 
+set boot partition size
+
+Command (m for help):t
+Command (m for help):1
+
+set other partition same as on "NOTES"
+
+# mkfs.fat -F32 /dev/sdxx <---- 1st/efi boot partition
+
+set other partition same as on "NOTES"
 
 
 ====================
