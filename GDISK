@@ -1,0 +1,52 @@
+GPT to MBR:
+
+https://unix.stackexchange.com/questions/61142/remove-gpt-default-back-to-mbr
+
+
+Use gdisk /dev/sda
+
+Note: /dev/sda is in the case of the person who asked this question but change it to your drive name.
+
+Once you are inside with gdisk use:
+
+x   extra functionality (experts only)
+then when you type p to see all the options, you will see this:
+
+Expert command (? for help): ?
+a   set attributes
+c   change partition GUID
+d   display the sector alignment value
+e   relocate backup data structures to the end of the disk
+g   change disk GUID
+h   recompute CHS values in protective/hybrid MBR
+i   show detailed information on a partition
+l   set the sector alignment value
+m   return to main menu
+n   create a new protective MBR
+o   print protective MBR data
+p   print the partition table
+q   quit without saving changes
+r   recovery and transformation options (experts only)
+s   resize partition table
+t   transpose two partition table entries
+u   Replicate partition table on new device
+v   verify disk
+w   write table to disk and exit
+z   zap (destroy) GPT data structures and exit
+?   print this menu
+Use z
+
+Expert command (? for help): z
+About to wipe out GPT on /dev/xvdf. Proceed? (Y/N): Y
+GPT data structures destroyed! You may now partition the disk using fdisk or
+other utilities.
+Blank out MBR? (Y/N): Y
+
+
+
+
+
+
+GDISK WALKTHROUGH:
+
+https://www.rodsbooks.com/gdisk/walkthrough.html
