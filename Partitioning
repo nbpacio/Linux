@@ -1,0 +1,89 @@
+Formatting SDCARD/USB/DISK using FDISK:
+
+FAT32:
+
+First run  fdisk -l to identify the correct drive.
+
+Run the following in case the SD card is /dev/sda
+
+umount /dev/sda
+
+fdisk /dev/sda
+
+Type d to remove the partition
+
+Type n for a new partition
+
+Type t to select partition type
+
+Type b for FAT32
+
+Type p to verify partition
+
+Type w to write partition
+
+Type mkfs.vfat /dev/sda1
+
+
+NTFS:
+
+First run  fdisk -l to identify the correct drive.
+
+Run the following in case the SD card is /dev/sda
+
+umount /dev/sda
+
+fdisk /dev/sda
+
+Type d to remove the partition
+
+Type n for a new partition
+
+Type t to select partition type
+
+Type 7 for NTFS
+
+Type a to make it bootable
+
+Type p to verify partition
+
+Type w to write partition
+
+Type mkfs.ntfs /dev/sda1
+
+NOTE:
+If you have a large file system and dont want to wait hours to write zeroes through it, 
+you can skip that part by running mkfs.ntfs -f /dev/sdx1 instead
+
+
+PARTITIONING NOTES:
+
+1. boot partition - 200-500 mb minimum - +200M on last sector
+2. swap partition - 8-12 GB for 8GB memory (150%) - +12G on last sector
+3. root partition - where you put all applications
+4. home partition - personal files
+
+
+# mkfs.ext4 /dev/sdxx <---- boot, root and home partitions.
+# mkswap /dev/sdxx <---- swap partition
+# swapon /dev/sdxx <----- swap on
+
+
+
+
+
+====================
+FLASHING IMAGE using DD:
+
+dd bs=4M status=progress if=/Path to Image/2012-12-16-wheezy-raspbian.img of=/dev/sdd
+
+dd if=FILE NAME HERE.iso of=/dev/sdX bs=4MB status=progress  < ======= for ISOs
+
+mount -o loop x.iso /mnt/iso <---- attaching iso
+
+dd bs=4M if=./2015-05-05-raspbian-wheezy.img of=/dev/sdd & pid=$!
+You can verify the process is still running throughout the copy with: pidof dd
+
+Another option to monitor progress is to use Pipe Viewer (pv). Pipe dd input part through pv to the output part of dd:
+dd bs=4M if=2014-09-09-wheezy-raspbian.img | pv | dd of=/dev/mmcblk0
+2,02GB 0:06:34 [10,4MB/s] [       <=>                              ]
