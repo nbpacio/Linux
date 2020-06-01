@@ -1,0 +1,9 @@
+1. nmcli dev status
+
+2. create password file
+
+on password file type:
+
+802-11-wireless-security.psk:PASSWORD
+
+3. type nmcli connection up ifname <wlp1s0> ap <GlobeAtHome-2.4G-17FF9E> passwd-file <password_file>
