@@ -1,0 +1,10 @@
+Install Terminator (Terminal I use in video)
+sudo apt install terminator
+
+Install Fonts-Powerline for pretty bars
+sudo apt install fonts-powerline
+
+Copy and Paste of the Fancy Prompt Script
+https://raw.githubusercontent.com/ChrisTitusTech/scripts/master/fancy-bash-promt.sh
+
+Start from ## FUNCTIONS down
