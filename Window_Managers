@@ -1,1 +1,67 @@
+1. Install Window Manager (ex. i3, dwm, awesome);
+
+   sudo apt install awesome compton nitrogen pcmanfm dmenu
+   
+   awesome - wm
+   compton - windows
+   nitrogen - wallpaper
+   dmenu - menu
+   pcmanfm - file explorer
+
+2. for awesome:
+   
+   find rc.lua and copy to ~/.config/awesome folder
+   
+   
+    nbpacio  dbx  ~  sudo find / -name rc.lua
+    
+    [sudo] password for nbpacio: 
+    
+    /etc/xdg/awesome/rc.lua
+
+   sudo cp /etc/xdg/awesome/rc.lua ~/.config/awesome
+   
+  OR 
+   
+  you can copy and use this built in themes:
+   
+   REPO:  nbpacio/awesome-copycats 
+   
+3. edit rc.lua according to preferred settings:
+
+
+my standard settings (add the following):
+
+
+
+-- Autostart Applications
+awful.spawn.with_shell("compton")
+awful.spawn.with_shell("nitrogen --restore")
+
+   -- Dmenu
+    awful.key({ modkey },            "r",     function ()
+                  awful.util.spawn("dmenu_run") end,
+                {description = "run dmenu", group = "launcher"}),
+
+
+    -- PCManFM
+    awful.key({ modkey, "Shift" },            "e",     function ()
+                  awful.util.spawn("pcmanfm") end,
+                {description = "pcmanfm", group = "applications"}),
+
+
+    -- Konsole
+    awful.key({ modkey, "Shift" },            "t",     function ()
+                  awful.util.spawn("konsole") end,
+                {description = "konsole", group = "applications"}),
+
+
+    -- Spectacle
+    awful.key({ modkey, "Shift" },            "p",     function ()
+                  awful.util.spawn("spectacle") end,
+                {description = "printscreen", group = "applications"}),
+
+
+
+
 
