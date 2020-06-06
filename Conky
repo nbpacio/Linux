@@ -1,0 +1,13 @@
+1. $ sudo apt-get install conky-all
+
+2. $ wget --no-check-certificate https://github.com/teejee2008/conky-manager/releases/download/v2.4/conky-manager-v2.4-amd64.run
+
+3. As root, authorize yourself to run the installation file by running the following command:
+
+# chmod +x conky-manager-v2.4-amd64.run
+
+4. Then, install the Conky Manager through the following command:
+
+# sudo ./conky-manager-v2.4-amd64.run
+
+5. put conkyrc files and rename name.conkyrc in ~/.conky
