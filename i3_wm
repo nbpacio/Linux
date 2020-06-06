@@ -30,6 +30,29 @@ download latest from:
 
 https://i3wm.org/i3status/
 
+On debian-based systems, the following line will install all requirements:
+```bash
+apt-get install libconfuse-dev libyajl-dev libasound2-dev libiw-dev asciidoc libpulse-dev libnl-genl-$
+`
+
+## Compilation 
+
+Prefer installing i3status via your Linux distribution’s package manager.
+
+If you absolutely have to build from source, use:
+
+```bash
+  autoreconf -fi
+  mkdir build
+  cd build
+  ../configure
+  make -j8
+  sudo make install
+```
+
+
+
+
 
 6. install i3-gaps if there is (Arch) or from source (Debian)
 
