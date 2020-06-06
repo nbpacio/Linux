@@ -1,3 +1,6 @@
+Using Password File:
+
+
 1. nmcli dev status
 
 2. create password file
@@ -7,3 +10,27 @@ on password file type:
 802-11-wireless-security.psk:PASSWORD
 
 3. type nmcli connection up ifname <wlp1s0> ap <GlobeAtHome-2.4G-17FF9E> passwd-file <password_file>
+
+
+Using Password:
+
+
+sp4wn@dbx:~$ nmcli device wifi rescan
+
+sp4wn@dbx:~$ nmcli device wifi list
+IN-USE  SSID                     MODE   CHAN  RATE        SIGNAL  BARS  SECURITY  
+        GlobeAtHome-2.4G-17FF9E  Infra  11    270 Mbit/s  95      ▂▄▆█  WPA1 WPA2 
+        GlobeAtHome-5G-17FF9F    Infra  52    270 Mbit/s  74      ▂▄▆_  WPA1 WPA2 
+
+sp4wn@dbx:~$ nmcli device wifi connect GlobeAtHome-2.4G-17FF9E password PASSWORD
+Device 'wlp1s0' successfully activated with '3265d5d2-d09e-4486-a971-8d6d8f083cb1'.
+sp4wn@dbx:~$
+
+
+
+sp4wn@dbx:~$ nmcli dev status
+DEVICE     TYPE      STATE        CONNECTION              
+wlp1s0     wifi      connected    GlobeAtHome-2.4G-17FF9E 
+enp0s31f6  ethernet  unavailable  --                      
+lo         loopback  unmanaged    --                      
+sp4wn@dbx:~$
