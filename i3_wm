@@ -1,0 +1,60 @@
+1. install i3 and other tools
+
+$ sudo apt-get install i3 xorg suckless-tools compton nitrogen rofi vxrt-unicode konsole terminator htop neofetch dmenu
+
+2. create i3 folder
+
+~/.config/i3
+
+3. locate original config and copy to above folder
+
+$ sudo find / -name config
+/etc/i3/config
+
+cp /etc/i3/config ~/.config/i3/config
+
+4. or load your own config and copy to folder above and customize:
+
+
+load rofi menu:
+bindsym $mod+r exec rofi -combi-modi window#drun#ssh -theme Arc-Dark -font "monospace 10" -show com$
+
+autostart:
+exec --no-startup-id compton
+exec --no-startup-id nitrogen --restore
+
+
+5. install i3status if latest/above version 2.12 or install from source:
+
+download latest from:
+
+https://i3wm.org/i3status/
+
+
+6. install i3-gaps if there is (Arch) or from source (Debian)
+
+
+
+steps:
+https://github.com/Airblader/i3 <==== clone download git
+https://github.com/Airblader/i3/wiki/Building-from-source
+
+
+Debian Dependencies:
+
+apt install dh-autoreconf libxcb-keysyms1-dev libpango1.0-dev libxcb-util0-dev xcb libxcb1-dev libxcb-icccm4-dev libyajl-dev libev-dev libxcb-xkb-dev libxcb-cursor-dev libxkbcommon-dev libxcb-xinerama0-dev libxkbcommon-x11-dev libstartup-notification0-dev libxcb-randr0-dev libxcb-xrm0 libxcb-xrm-dev libxcb-shape0 libxcb-shape0-dev
+
+Building:
+
+# compile & install
+autoreconf --force --install
+rm -rf build/
+mkdir -p build && cd build/
+
+# Disabling sanitizers is important for release versions!
+# The prefix and sysconfdir are, obviously, dependent on the distribution.
+../configure --prefix=/usr --sysconfdir=/etc --disable-sanitizers
+make
+sudo make install
+
+
