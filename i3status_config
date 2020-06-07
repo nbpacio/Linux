@@ -47,6 +47,8 @@ volume master {
         # termsyn font
 
         format = " 🔊 %volume "
+        format_muted = " 🔇 %volume"
+
 
 }
 
