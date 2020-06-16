@@ -1,0 +1,83 @@
+
+ARCH LINUX:
+
+1. Check current version and installed versions:
+  $ uname -r
+  $ pacman -Q | grep linux
+
+2. System update:
+  $ sudo pacman -Syu   <------ update kernel via system update
+
+3. Update by Compiling:
+  - Go to thttps://www.kernel.org and down
+  - Download Latest Stable Kernel
+
+4. Go to Download directory:
+  $ cd Downloads/
+
+5. Extract downloaded file:
+  $ tar xvf linux-4.15.2.tar.xz
+  
+  NOTE: To compile a Linux kernel, you need more than 20GB of free space. 
+  You can check how much space you have left with df -h command.
+
+6. Navigate to directory:
+  $ cd linux-4.15.2
+
+7. Download dependency packages:
+  $ sudo pacman -S ncurses make gcc bc openssl
+
+8. Now copy the configuration file that the current kernel is using to the linux-4.15.2 directory with the following command:
+  $ zcat /proc/config.gz > .config
+
+9. Now run the following command to prepare the configuration file for the new version of kernel.
+  $ make menuconfig
+
+10. From here you can enable or disable specific kernel features. If you don’t know what it is, just leave the defaults.
+
+11. Once you’re satisfied with the configuration file, go to <Save> option and press <Enter>
+
+12. Then you should see the following window. Press <Enter> again.
+    " Enter a filename to which this configurations should be saved as an alternate."
+
+13. Press enter again. You should be back to the main configuration window. Go to <Exit> and press <Enter> You should be back to the terminal.
+
+14. Now run the following command to start the compilation process:
+  $ make
+ 
+15. The kernel compilation process should start. It should take a long time for the kernel compilation process to finish.
+
+16. Now install all the compiled kernel modules with the following command:
+  $ sudo make modules_install
+ 
+17. All the kernel modules should be installed. Now copy the vmlinuz file for your architecture to the /boot directory. 
+
+  For 32-bit operating system, run the following command:
+  $ sudo cp -v arch/x86/boot/bzImage /boot/vmlinuz-4.15.2
+
+  For 64-bit operating system, run the following command:
+  $ sudo cp -v arch/x86_64/boot/bzImage /boot/vmlinuz-4.15.2
+  
+18. The file should be copied.
+
+    Now generate an initramfs image and save it to /boot directory with the following command:
+    $ sudo mkinitcpio -k 4.15.2-ARCH -g /boot/initramfs-4.15.2.img
+
+    The initramfs file should be generated.
+    
+19. Now copy the System.map file to /boot directory with the following command:
+    $ sudo cp -v System.map /boot/System.map-4.15.2
+    
+20. Now make a symbolic link of the System.map-4.15.2 file to /boot/System.map with the following command:
+    $ sudo ln -sf /boot/System.map-4.15.2 /boot/System.map
+    
+21. Now generate a grub.cfg file with the following command:
+    $ sudo grub-mkconfig -o /boot/grub/grub.cfg
+    
+22. A new grub.cfg file should be generated. Now reboot your computer with the following command:
+    $ sudo reboot
+    
+23. Once your computer boot, run the following command to check for the kernel version:
+    $ uname -r
+
+    The kernel should be updated
