@@ -65,6 +65,21 @@ ARCH LINUX:
 
     The initramfs file should be generated.
     
+    
+NOTE: Copy System.map
+The System.map file is not required for booting Linux. 
+It is a type of "phone directory" list of functions in a particular build of a kernel. 
+The System.map contains a list of kernel symbols (i.e function names, variable names etc) and their corresponding addresses. 
+This "symbol-name to address mapping" is used by:
+
+Some processes like klogd, ksymoops etc
+By OOPS handler when information has to be dumped to the screen during a kernel crash (i.e info like in which function it has crashed).
+Tip: UEFI partitions are formatted using FAT32, which does not support symlinks.
+If your /boot is on a filesystem which supports symlinks (i.e., not FAT32), copy System.map to /boot, appending your kernel's name to the destination file. 
+Then create a symlink from /boot/System.map to point to /boot/System.map-YourKernelName:
+    
+        
+    
 19. Now copy the System.map file to /boot directory with the following command:
     $ sudo cp -v System.map /boot/System.map-4.15.2
     
