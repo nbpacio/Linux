@@ -1,0 +1,37 @@
+https://www.golinuxcloud.com/commands-copy-file-from-one-server-to-another-linux-unix/
+
+
+
+You can also automate the file transfer using SFTP in shell script, or you can also use one liner SFTP commands to perform file transfer rather than interactive sessions.
+
+[deepak@Ban17-inst01-a ~]$ sftp -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no deepak@10.43.138.2
+Password:
+Once you give the password of deepak user on target node, you will get sftp shell
+
+sftp> ls -l
+-rw-r----- 1 root root 401 Dec 7 11:53 new_key.pub
+-rw-r----- 1 deepak users 9 Dec 10 14:13 pwd.txt
+drwxr-xr-x 2 root root 4096 Nov 28 11:38 scripts
+-rw-r--r-- 1 root root 0 Dec 10 14:07 test_file
+
+
+sftp> put /home/deepak/pwd.txt .
+Uploading /home/deepak/pwd.txt to /home/deepak/./pwd.txt
+/home/deepak/pwd.txt 100% 9 26.6KB/s 00:00
+To copy a directory and all it's content use (-r). Here /home/deepak/mydir is available on my host machine which I am copying to the connected client node under current working directory.
+
+sftp> put -r /home/deepak/mydir .
+Entering /home/deepak/mydir/
+So the file was successfully uploaded. You can verify the same
+
+sftp> ls
+new_key.pub pwd.txt scripts test_file
+Next copy a file from client node to your host server. I have a file 'test_file' on my client node under '/home/deepak/test_file'
+
+sftp> get test_file /tmp/
+Fetching /home/deepak/test_file to /tmp/test_file
+Validate the same on your host server
+
+# ls -l /tmp/test_file
+-rw-r----- 1 deepak deepak 0 Dec 10 14:09 /tmp/test_file
+You can get more supported options from the man page of sftp.
