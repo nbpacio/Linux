@@ -1,0 +1,351 @@
+Checking Current User Sessions:
+
+
+[npacio@ITSUSRALSP00620 ~]$ tty
+/dev/pts/257 <===== current session
+
+
+[npacio@ITSUSRALSP00620 ~]$ w | grep pacio
+npacio   pts/142  10.220.207.123   21:23    1:15m  0.00s  0.00s -bash
+npacio   pts/194  10.220.207.123   Sat19    1:09m  0.31s  0.12s -bash
+npacio   pts/241  10.220.207.123   23:34    1:02m  0.01s  0.01s -bash
+npacio   pts/257  10.220.207.123   23:41    1.00s  0.11s  0.02s w
+
+[npacio@ITSUSRALSP00620 ~]$ who | grep pacio
+npacio   pts/142      2020-04-19 21:23 (10.220.207.123)
+npacio   pts/194      2020-04-18 19:23 (10.220.207.123)
+npacio   pts/241      2020-04-19 23:34 (10.220.207.123)
+npacio   pts/257      2020-04-19 23:41 (10.220.207.123)
+[npacio@ITSUSRALSP00620 ~]$
+
+
+[npacio@ITSUSRALSP00620 ~]$ ps -fu npacio
+UID        PID  PPID  C STIME TTY          TIME CMD
+npacio   10730 64489  0 00:33 pts/257  00:00:00 less /etc/passwd
+npacio   12205 64489  3 00:48 pts/257  00:00:00 ps -fu npacio
+npacio   26883     1  0 Apr11 ?        00:00:00 ssh-agent -s
+npacio   34870 45783  0 Apr19 pts/194  00:00:00 less
+npacio   36325 36321  0 Apr19 ?        00:00:00 sshd: npacio@pts/142
+npacio   36326 36325  0 Apr19 pts/142  00:00:00 -bash
+npacio   45782 45778  0 Apr18 ?        00:00:00 sshd: npacio@pts/194
+npacio   45783 45782  0 Apr18 pts/194  00:00:00 -bash
+npacio   63313 63309  0 Apr19 ?        00:00:00 sshd: npacio@pts/241
+npacio   63314 63313  0 Apr19 pts/241  00:00:00 -bash  < =============
+npacio   64488 64484  0 Apr19 ?        00:00:00 sshd: npacio@pts/257
+npacio   64489 64488  0 Apr19 pts/257  00:00:00 -bash
+
+[npacio@ITSUSRALSP00620 ~]$ kill 63314
+[npacio@ITSUSRALSP00620 ~]$ 
+[npacio@ITSUSRALSP00620 ~]$ kill -HUP 63314
+[npacio@ITSUSRALSP00620 ~]$
+
+
+Deleting Histories:
+
+$ cat /dev/null > .bash_history
+$ history -c
+
+
+
+SCRIPTING:
+
+rhel@rhel~]$for u in user{1..5} ; do
+>echo $u
+>done
+user1
+user2
+user3
+user4
+user5
+
+
+Ex. Creating Multiple User Accounts:
+
+rhel@rhel~]$for u in user{1..5} ; do sudo useradd $u ; echo "Password1" | sudo passwd --stdin $u ; done
+[sudo] password for rhel:
+Changing password for user user1.
+passwd: all authentication tokens updated successfully.
+Changing password for user user2.
+passwd: all authentication tokens updated successfully.
+Changing password for user user3.
+passwd: all authentication tokens updated successfully.
+Changing password for user user4.
+passwd: all authentication tokens updated successfully.
+Changing password for user user5.
+passwd: all authentication tokens updated successfully.
+rhel@rhel~]$
+rhel@rhel~]$
+rhel@rhel~]$
+
+
+Ex. Deleting Multiple User Accounts:
+
+rhel@rhel~]$for u in user{1..5} ; do sudo userdel -r $u ; done
+
+
+
+
+
+Esc + .  <---- display last string typed
+
+
+Exampl Script 1:
+
+vim welcome.sh
+
+#!/bin/bash
+echo "hello world!"
+
+
+Example Script 2 (Auto Login to Cisco Device):
+
+#!/bin/bash
+echo -en "Enter Device IP:"
+read IP_ADD
+echo "Hello $IP_ADD"
+/usr/bin/sshpass -p "Password" ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l Username ${IP_ADD} 2> /dev/null
+
+
+Example Script 3 (Auto Login to Cisco Device and getting logs and capture logs to txt file):
+
+#!/bin/bash
+####################--------------------------------#######################
+## Script to perform basic checks on network gears                       ##
+## Version 2020                                                          ##
+## Author: Brian Pacio  Email: npacio@its.jnj.com                        ##     
+## This script can be used run show commands on Routers and Switches     ##
+####################--------------------------------#######################
+clear
+IP_ADD=$1
+PWD="Password"
+USR="Username"
+echo "Logging in to device..."
+/usr/bin/sshpass -p $PWD ssh -q -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -l $USR $IP_ADD 2> /dev/null <<EOF > rsconnect_output.txt
+terminal length 0
+show version
+show interface description
+EOF
+echo
+echo "Output Captured"
+echo
+
+
+***NOTE: Remove "> rsconnect_output.txt" to display output to terminal
+
+
+
+
+
+
+
+
+[npacio@ITSUSRALSP00620 ~]$ chmod -v +x welcome.sh
+mode of `welcome.sh' changed from 0664 (rw-rw-r--) to 0755 (rwxr-xr-x)
+
+[npacio@ITSUSRALSP00620 ~]$
+
+[npacio@ITSUSRALSP00620 ~]$ umask
+0022
+[npacio@ITSUSRALSP00620 ~]$ umask 3
+[npacio@ITSUSRALSP00620 ~]$ chmod -v a+x welcome.sh
+mode of `welcome.sh' retained as 0755 (rwxr-xr-x)
+[npacio@ITSUSRALSP00620 ~]$ chmod -v g+x welcome.sh
+mode of `welcome.sh' retained as 0755 (rwxr-xr-x)
+
+
+
+
+[npacio@ITSUSRALSP00620 ~]$ echo $PATH
+/home/npacio/bin/vim/src:/home/npacio/bin/Python:/home/npacio/bin/Python:/usr/lib64/qt-3.3/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/home/npacio/bin
+[npacio@ITSUSRALSP00620 ~]$ 
+
+
+
+:let $VIMRUNTIME = "/home/npacio/bin/vim/share/vim/vim82" <----- set vim runtime directory
+
+$ vim ~/.vimrc
+abbr _bash #!/bin/bash<CR>
+
+$ less /usr/share/vim/vim80/vimrc_example.vim
+
+
+
+
+
+BASH VARIABLES:
+
+user_name=bob  <----- Setting Variables (use lower case variables)
+
+echo "$user_name" <-------- Reading Variables
+
+echo "${user_name}s" <------- Delimiting Variables
+
+
+BUILT IN VARIABLES:
+
+$1,$2...${10}. <------ Positional Parameters
+
+$0 <---- script name
+
+$# <---- Number of Positional Parameters
+
+$* <----- List of all Variables Parameters
+
+
+
+
+EXAMPLES:
+
+EX1:
+
+[npacio@ITSUSRALSP00620 ~]$ vim var_test
+#!/bin/bash
+echo "$2"
+
+[npacio@ITSUSRALSP00620 ~]$ chmod a+x var_test
+[npacio@ITSUSRALSP00620 ~]$
+
+[npacio@ITSUSRALSP00620 ~]$ ./var_test brian nino
+nino <----- displays the 2nd variable input
+[npacio@ITSUSRALSP00620 ~]$
+
+
+EX2:
+
+[npacio@ITSUSRALSP00620 ~]$ vim var_test
+#!/bin/bash
+echo "$2"
+echo "$#"
+echo "$*"
+echo "$0"
+
+[npacio@ITSUSRALSP00620 ~]$ ./var_test brian nino test
+nino <---- displayed 2nd variable
+3 <------ 3 variables
+brian nino test <----- variables list
+./var_test <----- script name
+[npacio@ITSUSRALSP00620 ~]
+
+EX3:
+
+[npacio@ITSUSRALSP00620 ~]$vim var_test
+#!/bin/bash
+user_name="$1"
+user_password="${2:-Password1}"  <------ setting default value
+echo "Your username is $user_name and password is $user_password"
+
+
+[npacio@ITSUSRALSP00620 ~]$ ./var_test Brian mypass
+Your username is Brian and password is mypass
+[npacio@ITSUSRALSP00620 ~]$ ./var_test Brian
+Your username is Brian and password is Password1
+[npacio@ITSUSRALSP00620 ~]$ 
+
+
+
+PROMPTING USER INPUTS:
+
+read -p "Enter Username: " user_name
+
+read -sp "Enter Password: " user_password
+
+echo -e "\n$user_name $user_password"
+
+
+read  <------ read input
+
+-p  <------ prompt message
+
+-s  <------ silence input
+
+-e  <------ escape character
+
+\n  <------ next line
+
+
+
+Ex:
+
+#!/bin/bash
+read -p "Enter Username: " user_name
+read -sp "Enter Password: " user_password
+echo -e "\n$user_name $user_password"
+
+
+[npacio@ITSUSRALSP00620 ~]$ ./var_test
+Enter Username: Brian
+Enter Password: 
+Brian Pacio
+[npacio@ITSUSRALSP00620 ~]$
+
+
+
+LOGIC IMPLEMENTATION:
+
+
+type 5>> to indent in vim
+
+
+Ex:
+
+#!/bin/bash
+if [ $# -eq 0 ] ; then
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+        if [ "$user_password" != "$user_password_check" ] ; then
+                echo -e "\n${0}: Passwords do not match!"
+                exit 1
+        fi
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+echo -e "\n$user_name $user_password"
+
+
+
+
+FUNCTIONS:
+
+[npacio@ITSUSRALSP00620 ~]$ declare -F
+declare -f _module
+declare -f _module_avail
+declare -f _module_long_arg_list
+declare -f _module_not_yet_loaded
+declare -fx module
+declare -f quote
+[npacio@ITSUSRALSP00620 ~]$ declare -F | wc -l
+6
+[npacio@ITSUSRALSP00620 ~]$ declare -F quote
+[npacio@ITSUSRALSP00620 ~]$ quote bob
+'bob'
+[npacio@ITSUSRALSP00620 ~]$
+
+
+EX:
+
+#!/bin/bash
+prompt_user () {
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+	echo ""
+}
+if [ $# -eq 0 ] ; then
+	prompt_user
+        if [ "$user_password" != "$user_password_check" ] ; then
+                echo "${0}: Passwords do not match!"
+                prompt_user
+        fi
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+echo -e "\n$user_name $user_password"
+
+
+
+

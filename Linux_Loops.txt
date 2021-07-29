@@ -1,0 +1,125 @@
+SIMPLE LOGIC:
+
+[npacio@ITSUSRALSP00620 ~]$ grep -q ^root: /etc/passwd && echo "root exists"  <====== IF 1st COMMAND result is TRUE
+root exists
+[npacio@ITSUSRALSP00620 ~]$ grep -q ^root: /etc/passwd || echo "root does not exist"  <====== IF 1st COMMAND result is FALSE
+[npacio@ITSUSRALSP00620 ~]$
+
+
+
+[npacio@ITSUSRALSP00620 ~]$ grep root /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+operator:x:11:0:operator:/root:/sbin/nologin
+[npacio@ITSUSRALSP00620 ~]$ grep '^root:' /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+[npacio@ITSUSRALSP00620 ~]$
+[npacio@ITSUSRALSP00620 ~]$echo $USER
+npacio
+[npacio@ITSUSRALSP00620 ~]$ grep \^$USER\: /etc/passwd
+[npacio@ITSUSRALSP00620 ~]$ 
+npacio:x:1000:1000::/home/npacio:/bin/bash
+
+[npacio@ITSUSRALSP00620 ~]$ grep -q  \^$USER\: /etc/passwd
+[npacio@ITSUSRALSP00620 ~]$ <==== no value returned
+[npacio@ITSUSRALSP00620 ~]$echo $?
+0  <===== no error
+
+[npacio@ITSUSRALSP00620 ~]$ grep -q  \^$USE\: /etc/passwd
+[npacio@ITSUSRALSP00620 ~]$
+[npacio@ITSUSRALSP00620 ~]$echo $?
+1  <======= error
+
+
+DEMO:
+[npacio@ITSUSRALSP00620 ~]$vim manage_users
+
+
+
+#!/bin/bash
+prompt_user () {
+        message=${1:-"Enter the account details"}
+        echo "$message"
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+        echo ""
+}
+
+check_user () {
+        grep -q \^${1}\: /etc/passwd && return 0
+}
+
+if [ $# -eq 0 ] ; then
+        prompt_user
+        if [ "$user_password" != "$user_password_check" ] ; then
+                prompt_user "Passwords do not match! Re-Enter Details."
+        fi
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+if check_user "$user_name" ; then
+        prompt_user "The user name you have chosen already exists, please enter new user detail"
+fi
+echo -e "\n$user_name $user_password"
+
+
+
+
+ITERATION/LOOPING:
+
+FOR LOOP:
+
+#!/bin/bash
+for user in $* ; do
+        echo $user
+        echo $user
+done
+
+
+[npacio@ITSUSRALSP00620 scripts]$ ./users.sh fred jo sally harry
+fred
+fred
+jo
+jo
+sally
+sally
+harry
+harry
+[npacio@ITSUSRALSP00620 scripts]$
+
+
+WHILE LOOP:
+
+
+
+
+#!/bin/bash
+prompt_user () {
+        message=${1:-"Enter the account details"}
+        echo "$message"
+        read -p "Enter a username: " user_name
+        read -sp "Enter a password: " user_password
+        echo ""
+        read -sp "Re-Enter password: " user_password_check
+        echo ""
+}
+
+check_user () {
+        grep -q \^${1}\: /etc/passwd && return 0
+}
+
+if [ $# -eq 0 ] ; then
+        prompt_user
+        while [ "$user_password" != "$user_password_check" ] ; do
+                prompt_user "Passwords do not match! Re-Enter Details."
+        done
+else
+        user_name="$1"
+        user_password="${2:-Password1}"
+fi
+while check_user "$user_name" ; do
+        prompt_user "The user name you have chosen already exists, please enter new user detail"
+done
+echo -e "\n$user_name $user_password"

@@ -1,0 +1,25 @@
+
+
+Install with git :wrench:
+Be sure you don’t have a directory ~/.nano and no file ~/.nanorc.
+
+Then, clone the repository and symlink the config file:
+
+git clone https://github.com/Naereen/nanorc.git ~/.nano/
+ln -s ~/.nano/.nanorc ~/.nanorc
+You can try to check if the installation went well by opening the ~/.nanorc file.
+
+nano  ~/.nanorc  # should be nicely colored!
+Warning: clearly, this will only work on GNU/Linux. And I only tested it on Ubuntu…
+
+
+
+
+Install manually
+You can download and install any of the LANGUAGEXXX.nanorc files, where you wish, and be sure that your ~/.nanorc file include the files you want, with this syntax:
+
+# Coloration for nanorc, from https://github.com/Naereen/nanorc
+include "~/.nano/nanorc.nanorc"
+
+
+https://naereen.github.io/nanorc/
